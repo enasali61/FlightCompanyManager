@@ -11,13 +11,13 @@ using Microsoft.Data.SqlClient;
 
 namespace Airplane.AirLine
 {
-    
+
     public partial class UpdateAirline : Form
     {
         private Airline mainForm;
         private string originalid;
 
-        public UpdateAirline(AirLines airLi,Airline form)
+        public UpdateAirline(AirLines airLi, Airline form)
         {
             InitializeComponent();
 
@@ -31,7 +31,7 @@ namespace Airplane.AirLine
         private void button2_Click(object sender, EventArgs e)
         {
             // update
-            
+
             string Air_id = AiridTXT.Text.Trim();
             string name = NameTXT.Text.Trim();
 
@@ -49,7 +49,7 @@ namespace Airplane.AirLine
                     sqlConnection.Open();
 
                     sqlCommand.Parameters.AddWithValue("@Air_id", Air_id);
-                    sqlCommand.Parameters.AddWithValue("@name", name);  
+                    sqlCommand.Parameters.AddWithValue("@name", name);
                     sqlCommand.Parameters.AddWithValue("@oldid", originalid);
 
 
@@ -72,6 +72,11 @@ namespace Airplane.AirLine
             {
                 MessageBox.Show("Please fill all fields");
             }
+        }
+
+        private void UpdateAirline_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

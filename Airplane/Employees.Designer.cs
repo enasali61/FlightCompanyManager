@@ -324,6 +324,7 @@
             Margin = new Padding(4);
             Name = "Employees";
             Text = "InsertEmployees";
+            Load += Employees_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_employee).EndInit();

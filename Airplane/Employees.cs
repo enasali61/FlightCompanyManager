@@ -131,10 +131,10 @@ namespace Airplane
         {
 
             var row = dgv_employee.Rows[e.RowIndex];
-           
-            
+
+
             emp = new Employee();
-            emp.Ssn = Convert.ToString( row.Cells["SSN"].Value);
+            emp.Ssn = Convert.ToString(row.Cells["SSN"].Value);
             emp.Fname = Convert.ToString(row.Cells["Fname"].Value);
             emp.Lname = Convert.ToString(row.Cells["Lname"].Value);
             emp.Position = Convert.ToString(row.Cells["position"].Value);
@@ -148,7 +148,7 @@ namespace Airplane
             }
             else
             {
-                CurrentRowIndex = -1;    
+                CurrentRowIndex = -1;
             }
         }
 
@@ -157,7 +157,12 @@ namespace Airplane
             UpdateEmployees form = new UpdateEmployees(emp, this);
             form.ShowDialog();
 
-            
+
+        }
+
+        private void Employees_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

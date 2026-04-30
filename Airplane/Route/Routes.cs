@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic;
 
 namespace Airplane.Route
 {
@@ -37,47 +28,61 @@ namespace Airplane.Route
         {
 
             string Routeid = routeIdTXT.Text.Trim();
-            decimal Distance = Convert.ToDecimal(distanceTXT.Text.Trim());
-            string Distenation = destinationTXT.Text.Trim();
-            if (Routeid != "")
+            if (!decimal.TryParse(distanceTXT.Text.Trim(), out decimal Distance))
             {
+                MessageBox.Show("Distance must be a valid number.");
+                return;  // stop insert
+            }
+            string Destination = destinationTXT.Text.Trim();
 
-                try
-                {
+            if (string.IsNullOrWhiteSpace(Routeid))
+            {
+                MessageBox.Show("Route ID cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                    string connection = ConnectionToDB.ConnectionString;
-                    SqlConnection sqlConnection = new SqlConnection(connection);
-                    string query = "INSERT INTO Route (RouteId,Distance,Destination) VALUES (@id,@distace,@destination)";
-                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-                    sqlConnection.Open();
-
-
-                    sqlCommand.Parameters.AddWithValue("@id", Routeid);
-                    sqlCommand.Parameters.AddWithValue("@distace", Distance);
-                    sqlCommand.Parameters.AddWithValue("@destination", Distenation);
-
-
-                    int rows = sqlCommand.ExecuteNonQuery();
-
-                    MessageBox.Show($"{rows} row Succesfully Inserted");
-                    sqlCommand.Parameters.Clear();
-                    loadData();
-                    sqlConnection.Close();
-                }
-
-
-
-
-                catch (SqlException ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
+            // Validate Destination
+            if (string.IsNullOrWhiteSpace(Destination))
+            {
+                MessageBox.Show("Destination cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
 
-            else
+            if (Distance <= 0)
             {
-                MessageBox.Show("Please fill all fields");
+                MessageBox.Show("Distance must be greater than zero.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+
+                string connection = ConnectionToDB.ConnectionString;
+                SqlConnection sqlConnection = new SqlConnection(connection);
+                string query = "INSERT INTO Route (RouteId,Distance,Destination) VALUES (@id,@distace,@destination)";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                sqlConnection.Open();
+
+
+                sqlCommand.Parameters.AddWithValue("@id", Routeid);
+                sqlCommand.Parameters.AddWithValue("@distace", Distance);
+                sqlCommand.Parameters.AddWithValue("@destination", Destination);
+
+
+                int rows = sqlCommand.ExecuteNonQuery();
+
+                MessageBox.Show($"{rows} row Succesfully Inserted");
+                sqlCommand.Parameters.Clear();
+                loadData();
+                sqlConnection.Close();
+            }
+
+
+
+
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
@@ -135,6 +140,6 @@ namespace Airplane.Route
             form.ShowDialog();
         }
 
-        
+
     }
 }

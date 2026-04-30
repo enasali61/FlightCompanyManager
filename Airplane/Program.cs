@@ -1,11 +1,13 @@
+using System.Windows.Forms.Design;
 using Airplane.AirLine;
 using Airplane.AirLine_Address;
 using Airplane.AirLine_Phones;
 using Airplane.AirPlane_Form;
 using Airplane.AirplaneRoute;
 using Airplane.EmployeeAddress;
+using Airplane.LogIn;
+using Airplane.Main;
 using Airplane.Route;
-using System.Windows.Forms.Design;
 
 
 namespace Airplane
@@ -23,15 +25,8 @@ namespace Airplane
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new AirplaneRouteForm());
-            Application.Run(new AirLinePhonesForm());
-            Application.Run(new AirlineAddForm());
-            Application.Run(new Routes());
-            Application.Run(new Airline());
-            Application.Run(new AirPlanecs());
-            Application.Run(new Employees());
-            Application.Run(new EmpAddForm());
-
+            
+            Application.Run(new LogInForm());
         }
     }
 }

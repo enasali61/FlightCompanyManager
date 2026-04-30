@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Airplane.AirPlane_Form;
+﻿using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace Airplane.AirLine
@@ -43,17 +34,25 @@ namespace Airplane.AirLine
                 SqlConnection cn = new SqlConnection(con_string);
                 SqlCommand sqlcommand = new SqlCommand(query, cn);
 
-                cn.Open();
-                sqlcommand.Parameters.AddWithValue("@AirLine_id", AirLine_id);
-                sqlcommand.Parameters.AddWithValue("@name", name);
+                if (string.IsNullOrWhiteSpace(AirLine_id) || string.IsNullOrWhiteSpace(name))
+                {
+                    MessageBox.Show("Airline ID and Name cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else
+                {
+                    cn.Open();
+                    sqlcommand.Parameters.AddWithValue("@AirLine_id", AirLine_id);
+                    sqlcommand.Parameters.AddWithValue("@name", name);
 
-                int rows = sqlcommand.ExecuteNonQuery();
+                    int rows = sqlcommand.ExecuteNonQuery();
 
-                MessageBox.Show($"{rows} row Succesfully Inserted");
+                    MessageBox.Show($"{rows} row Succesfully Inserted");
 
-                sqlcommand.Parameters.Clear();
-                loadData();
-                cn.Close();
+                    sqlcommand.Parameters.Clear();
+                    loadData();
+                    cn.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -90,16 +89,16 @@ namespace Airplane.AirLine
                 }
             }
         }
-      
+
 
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             var row = dgv_airline.Rows[e.RowIndex];
-            
+
             airLine = new AirLines();
             airLine.AirLine_id = Convert.ToString(row.Cells["Air_Id"].Value);
             airLine.Name = Convert.ToString(row.Cells["Name"].Value);
-            
+
             if (row.Cells["Air_Id"].Value != null && double.TryParse(row.Cells["Air_Id"].Value.ToString(), out double AirLine_idValue))
             {
                 CurrentRowIndex = AirLine_idValue;
@@ -112,7 +111,7 @@ namespace Airplane.AirLine
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
-            UpdateAirline form = new UpdateAirline(airLine,this);
+            UpdateAirline form = new UpdateAirline(airLine, this);
             form.ShowDialog();
         }
     }
