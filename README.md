@@ -1,6 +1,6 @@
  FlightCompanyManager – Desktop Application
 A Windows Forms desktop application for managing flight company operations, built with C# and SQL Server. 
-This project was developed as part of my DataBase subject's project at the college.
+This project was developed as part of the Database Systems course during my studies at Al-Azhar University.
 
 -Project Overview
 FlightCompanyManager is a fully functional desktop application designed to help aviation companies manage their daily operations efficiently.
